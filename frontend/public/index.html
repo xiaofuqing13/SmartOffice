@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  
+  <!-- 预加载本地资源，确保在CDN失败时可用 -->
+  <link rel="preload" href="<%= BASE_URL %>static/lib/quill/quill.snow.css" as="style">
+  <link rel="preload" href="<%= BASE_URL %>static/lib/quill/quill.min.js" as="script">
+  
+  <!-- DOM补丁和资源加载处理 -->
+  <script src="<%= BASE_URL %>static/js/dom-polyfill.js"></script>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <title>智能办公系统</title>
+  <!-- 添加Element Plus样式链接 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+  <script defer src="<%= BASE_URL %>static/lib/quill/quill-patches.js"></script>
+</head>
+<body>
+  <noscript>
+    <strong>很抱歉，该应用需要启用JavaScript才能正常工作。请启用浏览器的JavaScript功能后重试。</strong>
+  </noscript>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+</html> 

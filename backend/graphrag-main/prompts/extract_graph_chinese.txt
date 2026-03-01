@@ -1,0 +1,196 @@
+-目标-
+给定一个可能与此活动相关的文本文档和实体类型列表，从文本中识别这些类型的所有实体以及已识别实体之间的所有关系。特别注意办公文档中的层级关系、协作关系、依赖关系、时间关系、财务关系等。
+ 
+-步骤-
+1. 识别所有实体。对于每个识别的实体，提取以下信息：
+- entity_name: 实体名称，保持原文准确性
+- entity_type: 以下类型之一：[{entity_types}]
+- entity_description: 实体属性和活动的全面描述，包括其在组织中的作用和重要性
+将每个实体格式化为 ("entity"{tuple_delimiter}<entity_name>{tuple_delimiter}<entity_type>{tuple_delimiter}<entity_description>)
+ 
+2. 从步骤1中识别的实体中，识别所有相关的(source_entity, target_entity)对。**重要：必须确保每个实体至少与一个其他实体建立关系，不允许存在孤立节点。**
+
+必须仔细分析以下类型的关系：
+- 层级关系：上下级、隶属关系、管理关系
+- 协作关系：合作、配合、共同参与
+- 依赖关系：依赖、支持、服务关系
+- 时间关系：先后顺序、同期发生
+- 财务关系：付款、收款、预算、成本
+- 合同关系：签约、履约、违约
+- 地理关系：位于、邻近、分布
+- 功能关系：使用、操作、维护
+- 共现关系：在同一文档、段落或上下文中出现
+- 语义关系：概念上相关、属于同一领域或类别
+- 引用关系：一个实体提及、引用或描述另一个实体
+- 属性关系：一个实体是另一个实体的属性、特征或组成部分
+
+**关系发现指导原则：**
+- 优先识别直接明确的关系，然后寻找间接关系
+- 如果两个实体在同一句话中出现，必须分析它们之间的潜在关系
+- 如果实体属于同一组织、项目或事件，建立相应的关联关系
+- 对于时间、地点、金额等实体，寻找它们所修饰或描述的主体实体
+- 即使是弱关系也要识别，但要准确评估强度分数
+
+对于每对相关实体，提取以下信息：
+- source_entity: 源实体的名称，如步骤1中识别的
+- target_entity: 目标实体的名称，如步骤1中识别的
+- relationship_description: 详细解释源实体和目标实体之间的具体关系类型和性质
+- relationship_strength: 表示关系强度的数字分数(1-10)，其中：
+  * 9-10: 直接的强关系（如直接上下级、合同当事人、直接负责人）
+  * 7-8: 重要的间接关系（如部门间协作、项目参与者）
+  * 5-6: 一般关系（如同一组织内、相关业务）
+  * 3-4: 弱关系（如偶然提及、间接关联）
+  * 1-2: 极弱关系（如仅在同一文档中出现）
+ 将每个关系格式化为 ("relationship"{tuple_delimiter}<source_entity>{tuple_delimiter}<target_entity>{tuple_delimiter}<relationship_description>{tuple_delimiter}<relationship_strength>)
+ 
+3. 以中文返回输出，作为步骤1和2中识别的所有实体和关系的单个列表。使用 **{record_delimiter}** 作为列表分隔符。
+
+4. **关系完整性检查**：在输出前，必须检查每个实体是否都至少参与了一个关系。如果发现孤立实体，必须：
+   - 重新分析该实体与其他实体的潜在关系
+   - 寻找共现关系、语义关系或上下文关系
+   - 为孤立实体建立至少一个关系（即使是弱关系也可以，但要准确评分）
+   - 确保最终输出中没有任何孤立节点
+ 
+5. 完成后，输出 {completion_delimiter}
+
+-重要提示-
+- **强制要求：每个实体必须至少与一个其他实体建立关系，绝对不允许孤立节点存在**
+- 必须识别文档中所有可能的实体关系，不要遗漏任何潜在的关联
+- 特别关注办公文档中常见的组织架构、项目管理、财务流程、合同关系
+- 关系强度评分要准确反映实际关联程度，允许识别弱关系（1-2分）但要准确评分
+- 即使是间接关系也要识别，包括共现关系、语义关系等
+- **关系检查步骤：完成关系识别后，检查每个实体是否都有至少一个关系，如果发现孤立实体，必须为其寻找合适的关联**
+ 
+######################
+-示例-
+######################
+示例1：办公文档-组织架构
+实体类型：组织,人员,部门
+文本：
+深圳智联软件有限公司技术部经理张远负责企业营销办公系统的开发工作，该项目预算为人民币200万元，计划于2025年7月1日完成。技术部隶属于研发中心，由副总经理刘强直接管理。
+######################
+输出：
+("entity"{tuple_delimiter}深圳智联软件有限公司{tuple_delimiter}组织{tuple_delimiter}一家专业的软件开发公司，负责企业办公系统开发)
+{record_delimiter}
+("entity"{tuple_delimiter}技术部{tuple_delimiter}部门{tuple_delimiter}负责软件开发的核心部门，隶属于研发中心)
+{record_delimiter}
+("entity"{tuple_delimiter}张远{tuple_delimiter}人员{tuple_delimiter}技术部经理，负责企业营销办公系统开发项目)
+{record_delimiter}
+("entity"{tuple_delimiter}企业营销办公系统{tuple_delimiter}项目{tuple_delimiter}公司正在开发的办公系统项目，预算200万元)
+{record_delimiter}
+("entity"{tuple_delimiter}人民币200万元{tuple_delimiter}金额{tuple_delimiter}企业营销办公系统项目的总预算)
+{record_delimiter}
+("entity"{tuple_delimiter}2025年7月1日{tuple_delimiter}日期{tuple_delimiter}企业营销办公系统项目的计划完成时间)
+{record_delimiter}
+("entity"{tuple_delimiter}研发中心{tuple_delimiter}部门{tuple_delimiter}公司的研发管理部门，管理技术部等下属部门)
+{record_delimiter}
+("entity"{tuple_delimiter}刘强{tuple_delimiter}人员{tuple_delimiter}副总经理，直接管理研发中心)
+{record_delimiter}
+("relationship"{tuple_delimiter}张远{tuple_delimiter}技术部{tuple_delimiter}张远是技术部的经理，负责部门管理工作{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}张远{tuple_delimiter}企业营销办公系统{tuple_delimiter}张远作为技术部经理，直接负责企业营销办公系统的开发工作{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}技术部{tuple_delimiter}深圳智联软件有限公司{tuple_delimiter}技术部是深圳智联软件有限公司的核心开发部门{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}技术部{tuple_delimiter}研发中心{tuple_delimiter}技术部隶属于研发中心，接受其管理{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}刘强{tuple_delimiter}研发中心{tuple_delimiter}刘强作为副总经理，直接管理研发中心{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}刘强{tuple_delimiter}技术部{tuple_delimiter}刘强通过研发中心间接管理技术部{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}企业营销办公系统{tuple_delimiter}人民币200万元{tuple_delimiter}企业营销办公系统项目的总预算为人民币200万元{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}企业营销办公系统{tuple_delimiter}2025年7月1日{tuple_delimiter}企业营销办公系统计划于2025年7月1日完成{tuple_delimiter}8)
+{completion_delimiter}
+
+######################
+示例2：办公文档-合同关系
+实体类型：组织,合同,金额,人员
+文本：
+广州云启科技有限公司与深圳智联软件有限公司签署软件服务合同，合同金额为人民币200万元，由广州云启科技有限公司法定代表人陈阳和深圳智联软件有限公司项目经理林容共同签署。合同约定增值税专用发票将在项目完成后开具。
+######################
+输出：
+("entity"{tuple_delimiter}广州云启科技有限公司{tuple_delimiter}组织{tuple_delimiter}软件服务合同的甲方，负责支付合同款项)
+{record_delimiter}
+("entity"{tuple_delimiter}深圳智联软件有限公司{tuple_delimiter}组织{tuple_delimiter}软件服务合同的乙方，负责提供软件服务)
+{record_delimiter}
+("entity"{tuple_delimiter}软件服务合同{tuple_delimiter}合同{tuple_delimiter}两家公司签署的服务合同，金额200万元)
+{record_delimiter}
+("entity"{tuple_delimiter}人民币200万元{tuple_delimiter}金额{tuple_delimiter}软件服务合同的总金额)
+{record_delimiter}
+("entity"{tuple_delimiter}陈阳{tuple_delimiter}人员{tuple_delimiter}广州云启科技有限公司的法定代表人)
+{record_delimiter}
+("entity"{tuple_delimiter}林容{tuple_delimiter}人员{tuple_delimiter}深圳智联软件有限公司的项目经理)
+{record_delimiter}
+("entity"{tuple_delimiter}增值税专用发票{tuple_delimiter}财务报表{tuple_delimiter}项目完成后需要开具的税务凭证)
+{record_delimiter}
+("relationship"{tuple_delimiter}广州云启科技有限公司{tuple_delimiter}软件服务合同{tuple_delimiter}广州云启科技有限公司是软件服务合同的甲方当事人{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}深圳智联软件有限公司{tuple_delimiter}软件服务合同{tuple_delimiter}深圳智联软件有限公司是软件服务合同的乙方当事人{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}陈阳{tuple_delimiter}广州云启科技有限公司{tuple_delimiter}陈阳是广州云启科技有限公司的法定代表人{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}林容{tuple_delimiter}深圳智联软件有限公司{tuple_delimiter}林容是深圳智联软件有限公司的项目经理{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}陈阳{tuple_delimiter}软件服务合同{tuple_delimiter}陈阳代表广州云启科技有限公司签署软件服务合同{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}林容{tuple_delimiter}软件服务合同{tuple_delimiter}林容代表深圳智联软件有限公司签署软件服务合同{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}软件服务合同{tuple_delimiter}人民币200万元{tuple_delimiter}软件服务合同的总金额为人民币200万元{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}软件服务合同{tuple_delimiter}增值税专用发票{tuple_delimiter}软件服务合同约定项目完成后开具增值税专用发票{tuple_delimiter}7)
+{completion_delimiter}
+
+######################
+示例3：办公文档-地理分布与组织架构
+实体类型：组织,地理位置,人员,部门
+文本：
+深圳智联软件有限公司总部位于深圳市南山区，在广州市天河区设有分公司。公司副总经理刘强常驻深圳总部，负责管理研发中心。广州分公司由区域经理陈阳负责，主要承接华南地区的客户服务工作。两地办公室通过企业营销办公系统进行日常协作。
+######################
+输出：
+("entity"{tuple_delimiter}深圳智联软件有限公司{tuple_delimiter}组织{tuple_delimiter}一家软件开发公司，总部位于深圳，在广州设有分公司)
+{record_delimiter}
+("entity"{tuple_delimiter}深圳市南山区{tuple_delimiter}地理位置{tuple_delimiter}深圳智联软件有限公司总部所在地)
+{record_delimiter}
+("entity"{tuple_delimiter}广州市天河区{tuple_delimiter}地理位置{tuple_delimiter}深圳智联软件有限公司分公司所在地)
+{record_delimiter}
+("entity"{tuple_delimiter}刘强{tuple_delimiter}人员{tuple_delimiter}公司副总经理，常驻深圳总部，负责管理研发中心)
+{record_delimiter}
+("entity"{tuple_delimiter}研发中心{tuple_delimiter}部门{tuple_delimiter}公司的研发管理部门，由副总经理刘强管理)
+{record_delimiter}
+("entity"{tuple_delimiter}陈阳{tuple_delimiter}人员{tuple_delimiter}广州分公司的区域经理)
+{record_delimiter}
+("entity"{tuple_delimiter}广州分公司{tuple_delimiter}组织{tuple_delimiter}深圳智联软件有限公司在广州的分支机构)
+{record_delimiter}
+("entity"{tuple_delimiter}华南地区{tuple_delimiter}地理位置{tuple_delimiter}广州分公司主要服务的客户区域)
+{record_delimiter}
+("entity"{tuple_delimiter}企业营销办公系统{tuple_delimiter}系统{tuple_delimiter}两地办公室用于日常协作的办公系统)
+{record_delimiter}
+("relationship"{tuple_delimiter}深圳智联软件有限公司{tuple_delimiter}深圳市南山区{tuple_delimiter}深圳智联软件有限公司总部位于深圳市南山区{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}广州分公司{tuple_delimiter}广州市天河区{tuple_delimiter}广州分公司位于广州市天河区{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}广州分公司{tuple_delimiter}深圳智联软件有限公司{tuple_delimiter}广州分公司是深圳智联软件有限公司的分支机构{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}刘强{tuple_delimiter}深圳智联软件有限公司{tuple_delimiter}刘强是深圳智联软件有限公司的副总经理{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}刘强{tuple_delimiter}深圳市南山区{tuple_delimiter}刘强常驻深圳市南山区的总部办公{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}刘强{tuple_delimiter}研发中心{tuple_delimiter}刘强负责管理研发中心{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}陈阳{tuple_delimiter}广州分公司{tuple_delimiter}陈阳是广州分公司的区域经理{tuple_delimiter}9)
+{record_delimiter}
+("relationship"{tuple_delimiter}广州分公司{tuple_delimiter}华南地区{tuple_delimiter}广州分公司主要承接华南地区的客户服务工作{tuple_delimiter}8)
+{record_delimiter}
+("relationship"{tuple_delimiter}深圳智联软件有限公司{tuple_delimiter}企业营销办公系统{tuple_delimiter}深圳总部通过企业营销办公系统进行日常协作{tuple_delimiter}7)
+{record_delimiter}
+("relationship"{tuple_delimiter}广州分公司{tuple_delimiter}企业营销办公系统{tuple_delimiter}广州分公司通过企业营销办公系统进行日常协作{tuple_delimiter}7)
+{completion_delimiter}
+
+######################
+-真实数据-
+######################
+实体类型：{entity_types}
+文本：{input_text}
+######################
+输出：

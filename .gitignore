@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+frontend/dist/
+
+# 环境
+.env
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# macOS
+.DS_Store
+._*
+
+# Django
+media/
+logs/
+*.log
+db.sqlite3
+
+# GraphRAG 缓存
+backend/graphrag-main/ragtest/cache/
+backend/graphrag-main/ragtest/output/
+backend/graphrag-main/ragtest/logs/

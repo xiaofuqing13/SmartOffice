@@ -1,0 +1,33 @@
+# Django 配置
+django:
+  secret_key: "your-secret-key-here"
+  debug: true
+  allowed_hosts:
+    - localhost
+    - 127.0.0.1
+
+# 数据库配置
+database:
+  engine: "django.db.backends.mysql"
+  name: "smart_office"
+  user: "your_database_user"
+  password: "your_database_password"
+  host: "localhost"
+  port: "3306"
+
+# AI 配置
+ai:
+  openai_api_key: "your-api-key-here"
+  openai_api_base: "https://api.openai.com/v1"
+  model: "gpt-4"
+  vision_model: "gpt-4-vision-preview"
+  max_tokens: 4096
+  max_vision_tokens: 12000
+  vision_api_timeout: 60
+
+# 日志配置
+logging:
+  level: "DEBUG"
+  file: "logs/django.log"
+  max_size: 10  # MB
+  backup_count: 5

@@ -1,0 +1,35 @@
+annotated-types==0.7.0
+beautifulsoup4==4.8.0
+chardet==3.0.4
+Django==4.2.10
+django-cors-headers
+django-filter==24.1
+djangorestframework==3.14.0
+drf-yasg==1.21.7
+jieba==0.42.1
+langchain==0.3.25
+langchain-community==0.3.24
+langchain-core==0.3.63
+langchain-openai==0.3.18
+Markdown==3.7
+nbformat==5.10.4
+numpy==1.26.4
+pandas==2.2.3
+PyJWT==2.10.1
+pypdf==4.0.1
+python-dateutil
+python-docx==1.1.0
+python-dotenv==1.0.0
+pyyaml==6.0.1
+reportlab==4.4.1
+requests==2.32.3
+rich==13.9.4
+tqdm==4.66.2
+typing_extensions==4.12.2
+wordcloud==1.9.4
+gunicorn
+mysqlclient
+Pillow==10.4.0
+graphrag==2.2.0 # 暂时注释掉，等解决依赖问题后再启用
+
+# textract==1.6.5 单独安装

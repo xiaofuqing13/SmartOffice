@@ -1,0 +1,130 @@
+// 全局主题变量
+
+// 基础主题变量
+:root {
+  // 基础字体大小
+  --font-size-base: 14px;
+  
+  // 主题色
+  --primary-color: #3b82f6;
+  --primary-color-light: #60a5fa;
+  --primary-color-dark: #2563eb;
+  --primary-color-rgb: 59, 130, 246;  // 新增RGB形式的主题色
+  
+  // 通用色
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --info-color: #3b82f6;
+}
+
+// 浅色主题变量
+:root[data-theme="light"] {
+  // 背景色
+  --bg-color: #ffffff;
+  --bg-color-secondary: #f9fafb;
+  --bg-color-tertiary: #f3f4f6;
+  
+  // 文本色
+  --text-color: #1f2937;
+  --text-color-secondary: #4b5563;
+  --text-color-tertiary: #6b7280;
+  
+  // 边框色
+  --border-color: #e5e7eb;
+  --border-color-light: #f3f4f6;
+  
+  // 其他
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --hover-color: #f3f4f6;
+  --active-color: #e5e7eb;
+  --slider-bg: #d1d5db;
+}
+
+// 深色主题变量
+:root[data-theme="dark"] {
+  // 背景色
+  --bg-color: #121212;
+  --bg-color-secondary: #1e1e1e;
+  --bg-color-tertiary: #2b2b2b;
+  
+  // 文本色
+  --text-color: #ffffff;
+  --text-color-secondary: #e5e7eb;
+  --text-color-tertiary: #d1d5db;
+  
+  // 边框色
+  --border-color: #404040;
+  --border-color-light: #333333;
+  
+  // 其他
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --hover-color: #333333;
+  --active-color: #404040;
+  --slider-bg: #4b5563;
+}
+
+// 内容密度设置
+body[data-density="compact"] {
+  --spacing-xs: 4px;
+  --spacing-sm: 6px;
+  --spacing-md: 10px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  
+  // 紧凑模式下的组件大小调整
+  .el-input__inner,
+  .el-button {
+    height: 30px;
+    font-size: calc(var(--font-size-base) - 1px);
+  }
+}
+
+body[data-density="standard"] {
+  --spacing-xs: 6px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 20px;
+  --spacing-xl: 28px;
+  
+  // 标准模式下的组件大小
+  .el-input__inner,
+  .el-button {
+    height: 36px;
+    font-size: var(--font-size-base);
+  }
+}
+
+body[data-density="comfortable"] {
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  // 宽松模式下的组件大小
+  .el-input__inner,
+  .el-button {
+    height: 40px;
+    font-size: calc(var(--font-size-base) + 1px);
+  }
+}
+
+// 自动根据系统主题适配
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    // 使用深色主题的变量
+    --bg-color: #121212;
+    --bg-color-secondary: #1e1e1e;
+    --bg-color-tertiary: #2b2b2b;
+    --text-color: #ffffff;
+    --text-color-secondary: #e5e7eb;
+    --text-color-tertiary: #d1d5db;
+    --border-color: #404040;
+    --border-color-light: #333333;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --hover-color: #333333;
+    --active-color: #404040;
+    --slider-bg: #4b5563;
+  }
+} 
