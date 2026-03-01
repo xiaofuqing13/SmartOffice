@@ -25,7 +25,7 @@
 
 集成大语言模型的对话界面，支持文档问答、内容生成、数据分析。
 
-![AI对话](docs/ai_chat.png)
+![AI对话](docs/ai-chat.png)
 
 ### 任务管理看板
 
@@ -43,13 +43,13 @@
 
 统一文档存储与管理，支持在线预览和 AI 内容分析。
 
-![文档管理](docs/doc_management.png)
+![文档管理](docs/doc-manage.png)
 
 ### 系统登录页
 
 安全的用户认证界面，支持多种登录方式。
 
-![登录页面](docs/login_page.png)
+![登录页面](docs/login.png)
 
 ## 技术架构
 
