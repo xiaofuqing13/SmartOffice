@@ -1,5 +1,8 @@
 # 智行舟智能办公系统
 
+![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![Vue](https://img.shields.io/badge/Vue.js-4FC08D?logo=vuedotjs&logoColor=white) ![Django](https://img.shields.io/badge/Django-092E20?logo=django&logoColor=white) ![License](https://img.shields.io/badge/License-MIT-green)
+
+
 > 2025 软件杯 B1 赛题 · 基于大语言模型的智能化协同办公平台
 
 ## 项目目的
