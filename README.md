@@ -22,17 +22,33 @@
 
 ## 效果展示
 
-![系统主界面](docs/dashboard.png)
+### 系统仪表盘
+![系统仪表盘](docs/dashboard.png)
 
-仪表盘展示任务概览、项目进度、AI 调用统计等关键指标，右侧 AI 助手支持实时对话问答。
+展示任务概览、项目进度、AI 调用统计等关键指标，右侧 AI 助手支持实时对话问答。
+
+### AI 智能对话
+![AI 智能对话](docs/ai-chat.png)
+
+基于企业文档的智能问答，支持多轮对话、会议纪要整理、文档检索等场景。
+
+### 文档管理
+![文档管理](docs/doc-manage.png)
+
+集中管理企业文档，支持上传、分类、搜索和共享，文件自动纳入 AI 知识库。
+
+### 登录界面
+![登录界面](docs/login.png)
 
 ## 核心功能
 
-- **AI 智能问答：** 接入大语言模型，支持多轮对话，结合企业知识库进行检索增强
-- **文档知识检索：** 基于 GraphRAG 构建文档知识图谱，支持语义级别的精准问答
-- **图片分析：** 集成视觉 AI 模型，支持图片内容理解和数据提取
-- **仪表盘：** 可视化数据面板，展示关键业务指标
-- **用户管理：** 独立的用户认证和权限管理体系
+| 功能 | 说明 |
+|------|------|
+| AI 智能问答 | 接入大语言模型，支持多轮对话，结合知识库检索增强 |
+| 文档知识检索 | 基于 GraphRAG 构建文档知识图谱，语义级精准问答 |
+| 图片分析 | 集成视觉 AI 模型，支持图片内容理解和数据提取 |
+| 仪表盘 | 可视化数据面板，展示关键业务指标 |
+| 用户管理 | 独立的用户认证和权限管理体系 |
 
 ## 技术栈
 
@@ -51,14 +67,9 @@
 SmartOffice/
 ├── backend/                    # Django 后端
 │   ├── apps/                   # 业务模块
-│   │   ├── dashboard/          # 仪表盘
-│   │   └── ...                 # 其他模块
-│   ├── ai/                     # AI 功能
-│   │   └── langchain/          # LangChain 集成
+│   ├── ai/                     # AI 功能（LangChain 集成）
 │   ├── graphrag-main/          # GraphRAG 知识图谱
-│   ├── config/                 # 配置
-│   ├── settings/               # Django settings
-│   ├── setting.yaml            # 应用配置文件
+│   ├── setting.yaml            # 应用配置
 │   ├── manage.py
 │   └── requirements.txt
 ├── frontend/                   # Vue.js 前端
@@ -66,36 +77,21 @@ SmartOffice/
 │   │   ├── api/                # 接口封装
 │   │   ├── components/         # 组件
 │   │   ├── views/              # 页面
-│   │   ├── router/             # 路由
-│   │   ├── store/              # 状态管理
-│   │   └── utils/              # 工具函数
-│   ├── public/
-│   ├── package.json
-│   └── vue.config.js
+│   │   └── router/             # 路由
+│   └── package.json
 └── README.md
 ```
 
 ## 快速开始
 
-**环境要求：** Python 3.8+、Node.js 16+、MySQL（或 SQLite）
-
 ### 后端
 
 ```bash
 cd backend
-
-# 安装依赖
 pip install -r requirements.txt
-
-# 修改 setting.yaml 配置（数据库连接、AI API 密钥等）
-
-# 数据库迁移
+# 修改 setting.yaml（数据库、AI API 密钥等）
 python manage.py migrate
-
-# 创建管理员
 python manage.py createsuperuser
-
-# 启动
 python manage.py runserver
 ```
 
@@ -104,18 +100,16 @@ python manage.py runserver
 ```bash
 cd frontend
 npm install
-npm run dev        # 开发模式
-npm run build      # 生产构建
+npm run dev
 ```
 
 ## 配置说明
 
-编辑 `backend/setting.yaml` 配置以下内容：
-
+编辑 `backend/setting.yaml`：
 - **django：** secret_key、debug 模式、allowed_hosts
-- **database：** 数据库引擎、名称、用户名、密码、地址、端口
-- **ai：** 大模型 API Key、API 地址、模型名称、token 限制
-- **logging：** 日志级别和文件路径
+- **database：** 数据库连接信息
+- **ai：** 大模型 API Key、地址、模型名称
+- **logging：** 日志级别和路径
 
 ## 开源协议
 
