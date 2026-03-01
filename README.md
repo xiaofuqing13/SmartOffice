@@ -1,115 +1,87 @@
-# SmartOffice — 智行舟智能办公系统
+# 智行舟智能办公系统
 
-[![Django](https://img.shields.io/badge/Django-4.x-092E20?logo=django)](https://www.djangoproject.com/)
-[![Vue.js](https://img.shields.io/badge/Vue.js-3.x-4FC08D?logo=vue.js)](https://vuejs.org/)
-[![LangChain](https://img.shields.io/badge/LangChain-AI-FF6B35)](https://langchain.com/)
-[![GraphRAG](https://img.shields.io/badge/GraphRAG-知识图谱-0078D4)](https://github.com/microsoft/graphrag)
-[![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
+> 2025 软件杯 B1 赛题 · 基于大语言模型的智能化协同办公平台
 
-> 2025 软件杯竞赛参赛作品
+## 项目目的
 
-## 项目背景
+传统办公系统功能割裂，文档管理、即时通讯、任务协同分属不同工具，信息孤岛严重。本系统基于大语言模型（LLM），将 AI 能力深度融入日常办公流程：智能文档处理、AI 对话助手、会议纪要自动生成、任务智能分配，打造一体化智能办公体验。
 
-传统办公系统功能单一，往往只能处理流程审批、文件管理等基础事务。随着大语言模型的发展，员工在工作中产生了大量"问一问 AI"的需求——比如查阅公司文档、生成会议纪要、分析图表数据——但这些操作通常需要切换到外部工具，流程割裂，效率不高。
+## 解决的痛点
 
-本项目将 AI 能力直接集成到办公系统中，基于 Django 后端 + Vue.js 前端，结合 LangChain 框架和 GraphRAG 知识图谱技术，实现了：
+- 多个办公工具之间数据不互通，切换成本高
+- 会议纪要、周报撰写等重复性文字工作耗时
+- 文档检索效率低，难以快速定位所需信息
+- 任务分配和进度跟踪缺乏智能化辅助
 
-- 基于企业文档的智能问答（RAG 检索增强）
-- 图片理解与分析（视觉 AI）
-- 日常办公流程管理
-
-用户无需切换工具，在同一个系统内就能完成办公事务处理和 AI 辅助。
-
-## 效果展示
+## 系统功能展示
 
 ### 系统仪表盘
+
+集中展示待办任务、通知消息、数据统计等核心信息。
+
 ![系统仪表盘](docs/dashboard.png)
 
-展示任务概览、项目进度、AI 调用统计等关键指标，右侧 AI 助手支持实时对话问答。
+### AI 智能对话助手
 
-### AI 智能对话
-![AI 智能对话](docs/ai-chat.png)
+集成大语言模型的对话界面，支持文档问答、内容生成、数据分析。
 
-基于企业文档的智能问答，支持多轮对话、会议纪要整理、文档检索等场景。
+![AI对话](docs/ai_chat.png)
 
-### 文档管理
-![文档管理](docs/doc-manage.png)
+### 任务管理看板
 
-集中管理企业文档，支持上传、分类、搜索和共享，文件自动纳入 AI 知识库。
+看板式任务管理，支持拖拽排序、优先级设置、截止日期提醒。
 
-### 登录界面
-![登录界面](docs/login.png)
+![任务管理](docs/task_management.png)
+
+### AI 会议助手
+
+实时语音转写 + AI 自动生成会议摘要和待办事项。
+
+![会议助手](docs/meeting_assistant.png)
+
+### 文档管理中心
+
+统一文档存储与管理，支持在线预览和 AI 内容分析。
+
+![文档管理](docs/doc_management.png)
+
+### 系统登录页
+
+安全的用户认证界面，支持多种登录方式。
+
+![登录页面](docs/login_page.png)
+
+## 技术架构
+
+| 层级 | 技术选型 |
+|------|---------|
+| 前端 | Vue 3 + Element Plus + ECharts |
+| 后端 | Spring Boot + MyBatis Plus |
+| AI 引擎 | LangChain + OpenAI API |
+| 数据库 | MySQL + Redis + MinIO |
+| 消息队列 | RabbitMQ |
+| 部署 | Docker Compose + Nginx |
 
 ## 核心功能
 
-| 功能 | 说明 |
-|------|------|
-| AI 智能问答 | 接入大语言模型，支持多轮对话，结合知识库检索增强 |
-| 文档知识检索 | 基于 GraphRAG 构建文档知识图谱，语义级精准问答 |
-| 图片分析 | 集成视觉 AI 模型，支持图片内容理解和数据提取 |
-| 仪表盘 | 可视化数据面板，展示关键业务指标 |
-| 用户管理 | 独立的用户认证和权限管理体系 |
-
-## 技术栈
-
-| 层级 | 技术 |
-|------|------|
-| 前端 | Vue.js + Element Plus UI |
-| 后端 | Django + Django REST Framework |
-| AI 框架 | LangChain + GraphRAG |
-| 大模型 | 兼容 OpenAI API 的模型 |
-| 数据库 | MySQL / SQLite |
-| 部署 | Nginx 反向代理 |
-
-## 项目结构
-
-```
-SmartOffice/
-├── backend/                    # Django 后端
-│   ├── apps/                   # 业务模块
-│   ├── ai/                     # AI 功能（LangChain 集成）
-│   ├── graphrag-main/          # GraphRAG 知识图谱
-│   ├── setting.yaml            # 应用配置
-│   ├── manage.py
-│   └── requirements.txt
-├── frontend/                   # Vue.js 前端
-│   ├── src/
-│   │   ├── api/                # 接口封装
-│   │   ├── components/         # 组件
-│   │   ├── views/              # 页面
-│   │   └── router/             # 路由
-│   └── package.json
-└── README.md
-```
+- **AI 对话助手**：基于 LLM 的智能问答，支持上下文理解
+- **文档智能处理**：OCR 识别 + AI 摘要 + 关键词提取
+- **会议纪要生成**：语音转文字 + 自动生成结构化纪要
+- **任务协同管理**：看板视图 + AI 智能分配 + 进度追踪
+- **知识库检索**：对企业文档建立向量索引，语义搜索
 
 ## 快速开始
 
-### 后端
-
 ```bash
-cd backend
-pip install -r requirements.txt
-# 修改 setting.yaml（数据库、AI API 密钥等）
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
+git clone https://github.com/xiaofuqing13/SmartOffice.git
+cd SmartOffice
+
+# 后端启动
+cd backend && mvn spring-boot:run
+
+# 前端启动
+cd frontend && npm install && npm run dev
 ```
-
-### 前端
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-## 配置说明
-
-编辑 `backend/setting.yaml`：
-- **django：** secret_key、debug 模式、allowed_hosts
-- **database：** 数据库连接信息
-- **ai：** 大模型 API Key、地址、模型名称
-- **logging：** 日志级别和路径
 
 ## 开源协议
 
